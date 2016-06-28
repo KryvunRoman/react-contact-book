@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body>
+    <div id='content'></div>
+    <script type="text/babel">
+    	var CONTACTS = [
+            {
+                id: 1,
+                name: 'Troy',
+                surname: 'Burton',
+                email: 'qwe@qwe.qwe',
+                emailCorporate: 'qwe@qwe.qwe',
+                skype: 'skype.name',
+                linkedin: 'linked-in-user-name',
+                role: 'developer',
+                dateBirth: '01.01.1991',
+                phoneNumber: '+1234567890',
+                phoneNumber2: '',
+                image: 'images/profile.jpg'
+            }, {
+                id: 2,
+                name: 'Francis',
+                surname: 'Nunez',
+                email: 'qwe@qwe.qwe',
+                emailCorporate: 'qwe@qwe.qwe',
+                skype: 'skype.name',
+                linkedin: 'linked-in-user-name',
+                role: 'pm',
+                dateBirth: '01.01.1991',
+                phoneNumber: '+1234567890',
+                phoneNumber2: '',
+                image: 'images/profile.jpg'
+            }, {
+                id: 3,
+                name: 'Jenny',
+                surname: 'Tyler',
+                email: 'qwe@qwe.qwe',
+                emailCorporate: 'qwe@qwe.qwe',
+                skype: 'skype.name',
+                linkedin: 'linked-in-user-name',
+                role: 'developer',
+                dateBirth: '01.01.1991',
+                phoneNumber: '+1234567890',
+                phoneNumber2: '+1234567890',
+                image: 'images/profile.jpg'
+            }, {
+                id: 4,
+                name: 'Ignacio',
+                surname: 'Pope',
+                email: 'qwe@qwe.qwe',
+                emailCorporate: 'qwe@qwe.qwe',
+                skype: 'skype.name',
+                linkedin: 'linked-in-user-name',
+                role: 'developer',
+                dateBirth: '01.01.1991',
+                phoneNumber: '+1234567890',
+                phoneNumber2: '',
+                image: 'images/profile.jpg'
+            }, {
+                id: 5,
+                name: 'Norman',
+                surname: 'Massey',
+                email: 'qwe@qwe.qwe',
+                emailCorporate: 'qwe@qwe.qwe',
+                skype: 'skype.name',
+                linkedin: 'linked-in-user-name',
+                role: 'developer',
+                dateBirth: '01.01.1991',
+                phoneNumber: '+1234567890',
+                phoneNumber2: '',
+                image: 'images/profile.jpg'
+            }
+        ];
+
+    	var  ContactProfile = React.createClass({
+    		render: function(){
+    			return (
+                    <div className="contact-profile">
+                    	<h1>No Selection</h1>
+                    </div>
+                );
+    		}
+    	});
+
+        var Contact = React.createClass({
+            render: function() {
+                return (
+                    <li className="contact">
+                        <img className="contact-image" src={this.props.image} width="60px" height="60px" />
+                        <div className="contact-info">
+                            <div className="contact-name">{this.props.name} {this.props.surname}</div>
+                            <div className="contact-number"> {this.props.phoneNumber} </div>
+                        </div>
+                    </li>
+                );
+            }
+        });
+
+        var ContactsList = React.createClass({
+            getInitialState: function() {
+                return {
+                    displayedContacts: CONTACTS
+                };
+            },
+
+            handleSearch: function(event) {
+                var searchQuery = event.target.value.toLowerCase();
+
+                var displayedContacts = CONTACTS.filter(function(el) {
+                    var searchValue = el.name.toLowerCase();
+                    var searchValue2 = el.surname.toLowerCase();
+
+                    return searchValue.indexOf(searchQuery) !== -1 || searchValue2.indexOf(searchQuery) !== -1;
+                });
+
+                this.setState({
+                    displayedContacts: displayedContacts
+                });
+            },
+
+            render: function() {
+                return (
+                    <div className="contacts">
+                    	<div className="contactSearchPanel">
+	                        <input type="text" className="search-field" onChange={this.handleSearch} />
+	                        <ul className="contacts-list">
+	                            {
+	                               this.state.displayedContacts.map(function(el) {
+	                                    return <Contact
+	                                        key={el.id}
+	                                        name={el.name}
+	                                        surname={el.surname}
+	                                        phoneNumber={el.phoneNumber}
+	                                        image={el.image}
+	                                    />;
+	                               })
+	                            }
+	                        </ul>
+                        </div>
+                        <ContactProfile />
+                    </div>
+                );
+            }
+        });
+
+        ReactDOM.render(
+            <ContactsList />,
+            document.getElementById("content")
+        );
+    </script>
+</body>
+</html>
